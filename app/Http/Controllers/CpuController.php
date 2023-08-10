@@ -29,6 +29,7 @@ class CpuController extends Controller
      */
     public function store(Request $request)
     { 
+        // var_dump(json_encode($request));
         $cpu = new Cpu;
         $cpu->id_server = $request->id_server;
         $cpu->usage_cpu = $request->usage_cpu;
@@ -43,7 +44,7 @@ class CpuController extends Controller
      */
     public function show(string $id)
     {
-        $latestData = Cpu::where('id_server', $id)->orderBy('id', 'desc')->first();
+        $latestData = Cpu::where('id_server', $id)->orderBy('id', 'desc')->limit(10)->get();
         return response()->json($latestData);
     }
 

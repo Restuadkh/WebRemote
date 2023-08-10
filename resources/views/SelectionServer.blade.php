@@ -35,9 +35,9 @@
         </div>          
         <div class="col-md m-1">
             <div style="width: 80%; margin: 0 auto;">
-                <canvas id="Chart" width="400" height="200"></canvas>
+                <canvas id="Chart" width="800" height="800"></canvas>
             </div>
-        </div>
+        </div>     
 
         <script>
             function getDataAndUpdate() {
@@ -46,7 +46,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         document.getElementById('data-cpu').innerHTML = data.usage_cpu;
                         document.getElementById('data-ram').innerHTML = data.usage_cpu;
                     }, 
@@ -58,31 +58,52 @@
         
             // Set an interval to make periodic requests every 5 seconds (adjust the interval as needed)
             setInterval(getDataAndUpdate, 10000);
+            setInterval(getDataChart, 10000);
 
             // Get chart data from PHP and convert it to JavaScript
-
-            // Create the chart
-            var ctx = document.getElementById('Chart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["1","2","3","4","5","6","7"],
-                    datasets: [{
-                        label: 'Data',
-                        data: ["1","2","3","4","5","6","7"],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            function getDataChart() {
+                var values = 0;
+                var id = 0;
+                $.ajax({
+                    url: '{{ route('CPU.show', ['id' => $cpu->id_server]) }}',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        id = data.map(data => data.id);
+                        values = data.map(data => data.usage_cpu);
+                        console.log(id);
+                        console.log(values);
+                    }, 
+                });
+                var ctx = document.getElementById('Chart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: id,
+                        datasets: [{
+                            label: 'Data',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
+                });
+                console.log(values);
+
+            }
+            getDataChart();
+            // Create the chart
+            
+
         </script>
         
     </div>

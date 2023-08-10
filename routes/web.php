@@ -30,9 +30,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('home.show');
     Route::get('/home/get/{id}', [App\Http\Controllers\HomeController::class, 'get'])->name('home.get');
-    Route::get('/cpu', [CpuController::class, 'index']);
-    Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
-    Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store');
+    Route::get('/CPU', [CpuController::class, 'index']);
+    Route::get('/CPU/{id}', [CpuController::class, 'show'])->name('CPU.show');
+    Route::post('/CPU', [CpuController::class, 'store'])->name('CPU.store');
 });
 
 Auth::routes();
