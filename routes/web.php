@@ -43,6 +43,6 @@ Route::group(['middleware' => ['web']], function () {
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('/home/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('home.show');
 // Route::get('/home/get/{id}', [App\Http\Controllers\HomeController::class, 'get'])->name('home.get');
-// Route::get('/cpu', [CpuController::class, 'index']);
-// Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
+Route::get('/cpu', [CpuController::class, 'index']);
+Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
 // Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store');

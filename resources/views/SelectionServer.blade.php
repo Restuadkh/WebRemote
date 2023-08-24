@@ -2,6 +2,19 @@
 
 @section('content')
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md m-1">
+            <div class="card text-left">
+              <img class="card-img-top" src="holder.js/100px180/" alt="">
+              <div class="card-body center">
+                <h4 class="card-title">Title</h4> 
+                <div style="width: 100%; margin: 0 auto;">
+                    <canvas id="Chart" width="800" height="400"></canvas>
+                </div> 
+              </div>
+            </div>
+        </div>  
+    </div>   
     <div class="row justify-content-center">   
         <div class="col-md m-1">
             <div class="card">
@@ -33,12 +46,7 @@
                 </div>
             </div>
         </div>          
-        <div class="col-md m-1">
-            <div style="width: 80%; margin: 0 auto;">
-                <canvas id="Chart" width="800" height="800"></canvas>
-            </div>
-            <div  id='data-chart'></div></p>
-        </div>     
+    </div>
 
         <script>
             function getDataAndUpdate() {
@@ -73,38 +81,33 @@
             var datasets = 0;
             // Get chart data from PHP and convert it to JavaScript
             function getDataChart() {
+                $.ajax({
+                    url: '{{ route('CPU.show', ['id' => $cpu->id_server])}}',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        id = data.map(data => data.id);
+                        values = data.map(data => data.usage_cpu);
+                        core = data.map(data => data.core_cpu);
+                        created_at = data.map(data => data.created_at); 
+                        truncatedTexts = created_at.map(text => {
+                            if (text.length > 10) {
+                                return text.substring(0, 10);
+                            }
+                            return text;
+                            });
+                        maxValue = Math.max.apply(null, values);
+                        minValue = Math.min.apply(null, values);
+                        myChart.options.scales.y.min = minValue-1;
+                        myChart.options.scales.y.max = maxValue+1;
 
-                var cores = {{ $cpu->core_cpu }};
-                console.log(cores); 
-                for(var a=0; a<cores; a++){
-                console.log(a); 
-                    $.ajax({
-                        url: '{{ route('CPU.show', ['id' => $cpu->id_server, 'core' => 'all' ])}}',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            console.log(data);
-                            id = data.map(data => data.id);
-                            // values = data.map(data => data.usage_cpu);
-                            core = data.map(data => data.core_cpu);
-                            // document.getElementById('data-chart').innerHTML = core; 
-                            // myChart.data.datasets[0].data = values;                        
-                            // myChart.data.labels = id;
-                            // myChart.data.datasets[1].data = core;
-                            // myChart.data.labels = id;
-                            // myChart.update();
-                            datasets[a] = {
-                                label: "Usage CPU",
-                                data: values,
-                                backgroundColor: getRandomColor(),
-                                borderColor: getRandomColor(),
-                                borderWidth: 1.5,
-                                fill: false,
-                                tension: 0.4
-                            };
-                        }, 
-                    }); 
-                }
+                        myChart.data.datasets[0].data = values;
+                        myChart.data.labels = truncatedTexts;
+                        
+                        myChart.update(); 
+                        console.log(data); 
+                    }, 
+                });  
             }
             
             getDataChart();
@@ -114,19 +117,34 @@
                 type: 'line',
                 data: {
                     labels: id,
-                    datasets: datasets
+                    datasets: [{
+                                label: "Usage CPU",
+                                data: values,
+                                backgroundColor: getRandomColor(),
+                                borderColor: getRandomColor(),
+                                borderWidth: 1.5,
+                                fill: false,
+                                tension: 0.4
+                            }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true
                         }
+                    }, 
+                    title: {
+                        display: true,
+                        text: 'Server Log CPU'
+                    },
+                    interaction: {
+                        intersect: false,
                     }
                 }
             });
 
         </script>
         
-    </div>
 </div>
 @endsection

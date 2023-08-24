@@ -42,22 +42,14 @@ class CpuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id,string $core)
+    public function show(string $id)
     { 
-        if($core!==NULL || $core !=='all'){
-        $latestData = Cpu::where('id_server', $id)
-                    ->where('core_cpu',"=", $core)
-                    ->where('core_cpu',"!=", 'all')
+        
+        $latestData = Cpu::where('id_server', $id) 
+                    ->where('core_cpu',"=", 'all')
                     ->orderBy('id', 'desc')
                     ->limit(100)
                     ->get(); 
-        }else{
-            $latestData = Cpu::where('id_server', $id) 
-                    ->where('core_cpu',"!=", 'all')
-                    ->orderBy('id', 'desc')
-                    ->limit(100)
-                    ->get(); 
-        }
         return response()->json($latestData);
     }
 
