@@ -86,13 +86,15 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data); 
+
                         id = data.map(data => data.id);
                         values = data.map(data => data.usage_cpu);
                         core = data.map(data => data.core_cpu);
                         created_at = data.map(data => data.created_at); 
                         truncatedTexts = created_at.map(text => {
                             if (text.length > 10) {
-                                return text.substring(0, 10);
+                                return text.substring(11, 19);
                             }
                             return text;
                             });
@@ -105,7 +107,7 @@
                         myChart.data.labels = truncatedTexts;
                         
                         myChart.update(); 
-                        console.log(data); 
+                        console.log(values); 
                     }, 
                 });  
             }
