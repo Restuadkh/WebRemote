@@ -87,7 +87,7 @@
                     dataType: 'json',
                     success: function(data) {
                         console.log(data); 
-
+                        data = data.reverse();
                         id = data.map(data => data.id);
                         values = data.map(data => data.usage_cpu);
                         core = data.map(data => data.core_cpu);
@@ -102,12 +102,10 @@
                         minValue = Math.min.apply(null, values);
                         myChart.options.scales.y.min = minValue-1;
                         myChart.options.scales.y.max = maxValue+1;
-
                         myChart.data.datasets[0].data = values;
                         myChart.data.labels = truncatedTexts;
                         
                         myChart.update(); 
-                        console.log(values); 
                     }, 
                 });  
             }

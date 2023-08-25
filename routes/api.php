@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CpuController;
+use App\Http\Controllers\DatabaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/cpu', [CpuController::class, 'store'])->name('cpu.store');
     Route::get('/cpu/{item}', [CpuController::class, 'show'])->name('cpu.show');
     Route::delete('/cpu/{item}', [CpuController::class, 'destroy'])->name('cpu.destroy');
+
+    Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
+    Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
+    Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
+    Route::get('/db/{item}', [DatabaseController::class, 'show'])->name('db.show');
+    Route::delete('/db/{item}', [DatabaseController::class, 'destroy'])->name('db.destroy');
 });

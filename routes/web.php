@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\CpuController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('home.show');
     Route::get('/home/get/{id}', [App\Http\Controllers\HomeController::class, 'get'])->name('home.get');
     Route::get('/CPU', [CpuController::class, 'index']);
-    // Route::get('/CPU/{id}', [CpuController::class, 'show'])->name('CPU.show');
+    Route::get('/CPU/{id}', [CpuController::class, 'show'])->name('CPU.show');
     Route::get('/CPU/{id}/{core}', [CpuController::class, 'show'])->name('CPU.show');
     Route::post('/CPU', [CpuController::class, 'store'])->name('CPU.store');
 });
@@ -45,4 +46,11 @@ Route::group(['middleware' => ['web']], function () {
 // Route::get('/home/get/{id}', [App\Http\Controllers\HomeController::class, 'get'])->name('home.get');
 Route::get('/cpu', [CpuController::class, 'index']);
 Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
-// Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store');
+Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store');
+
+
+Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
+Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
+Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
+Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
+Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
