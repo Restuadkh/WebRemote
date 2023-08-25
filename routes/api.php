@@ -34,12 +34,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/cpu', [CpuController::class, 'index'])->name('cpu.index');
     Route::get('/cpu/create', [CpuController::class, 'create'])->name('cpu.create');
     Route::post('/cpu', [CpuController::class, 'store'])->name('cpu.store');
-    Route::get('/cpu/{item}', [CpuController::class, 'show'])->name('cpu.show');
-    Route::delete('/cpu/{item}', [CpuController::class, 'destroy'])->name('cpu.destroy');
+    Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('cpu.show');
+    Route::delete('/cpu/{id}', [CpuController::class, 'destroy'])->name('cpu.destroy');
 
     Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
     Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
     Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
-    Route::get('/db/{item}', [DatabaseController::class, 'show'])->name('db.show');
-    Route::delete('/db/{item}', [DatabaseController::class, 'destroy'])->name('db.destroy');
+    Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
+    Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
 });

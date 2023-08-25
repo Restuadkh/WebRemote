@@ -53,4 +53,5 @@ Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
 Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
 Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
 Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
+Route::get('/dbs/{id}', [DatabaseController::class, 'get'])->name('dbs.get');
 Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');

@@ -46,7 +46,16 @@ class DatabaseController extends Controller
     {
         $latestData = Database::where('id_server', $id) 
                     ->orderBy('id', 'desc')
-                    ->limit(100)
+                    ->limit(50)
+                    ->get(); 
+        return response()->json($latestData);
+    }
+
+    public function get(string $id)
+    {
+        $latestData = Database::where('id_server', $id) 
+                    ->orderBy('id', 'desc')
+                    ->limit(1)
                     ->get(); 
         return response()->json($latestData);
     }
