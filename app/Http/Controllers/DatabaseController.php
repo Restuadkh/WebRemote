@@ -42,11 +42,18 @@ class DatabaseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
+        $id = $request->id;
+        if($request->limit!=Null){
+            $limit = $request->limit;
+        }else{
+            $limit = 10;
+        }
+
         $latestData = Database::where('id_server', $id) 
                     ->orderBy('id', 'desc')
-                    ->limit(50)
+                    ->limit($limit)
                     ->get(); 
         return response()->json($latestData);
     }
@@ -58,6 +65,13 @@ class DatabaseController extends Controller
                     ->limit(1)
                     ->get(); 
         return response()->json($latestData);
+    }
+
+    public function test(Request $request)
+    {   
+        $jsonData = $request->json()->all();
+        var_dump($jsonData);
+        return response()->json($jsonData);
     }
 
     /**

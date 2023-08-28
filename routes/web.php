@@ -46,12 +46,11 @@ Route::group(['middleware' => ['web']], function () {
 // Route::get('/home/get/{id}', [App\Http\Controllers\HomeController::class, 'get'])->name('home.get');
 Route::get('/cpu', [CpuController::class, 'index']);
 Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
-Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store');
-
-
+Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store'); 
 Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
+Route::get('/db', [DatabaseController::class, 'show'])->name('db.show');
 Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
 Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
-Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
+Route::get('/db/test', [DatabaseController::class, 'test'])->name('db.test');
 Route::get('/dbs/{id}', [DatabaseController::class, 'get'])->name('dbs.get');
 Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
