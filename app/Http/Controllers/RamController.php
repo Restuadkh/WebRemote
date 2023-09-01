@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Ram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon; 
 
 class RamController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -29,12 +31,14 @@ class RamController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    { 
         // var_dump(json_encode($request));
         $db = new Ram;
         $db->id_server = $request->id_server;
         $db->usage_ram = $request->usage_ram; 
         $db->space_ram = $request->space_ram; 
+        $db->created_at = Carbon::now(); 
+        $db->updated_at = Carbon::now(); 
         $db->save();
         // var_dump($cpu);
         return response()->json(['message' => 'Task created successfully', 'cpu' => $db]);

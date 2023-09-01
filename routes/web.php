@@ -57,7 +57,7 @@ Route::get('/dbs/{id}', [DatabaseController::class, 'get'])->name('dbs.get');
 Route::delete('/db/{id}', [DatabasController::class, 'destroy'])->name('db.destroy');
 
 Route::get('/ram', [RamController::class, 'index'])->name('ram.index');
-Route::get('/ram/get', [RamControllerntroller::class, 'show'])->name('ram.show');
+Route::get('/ram/get', [RamController::class, 'show'])->name('ram.show');
 Route::get('/ram/create', [RamController::class, 'create'])->name('ram.create');
 Route::post('/ram', [RamController::class, 'store'])->name('ram.store');
 Route::get('/ram/test', [RamController::class, 'test'])->name('ram.test');

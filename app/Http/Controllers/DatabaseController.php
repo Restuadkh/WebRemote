@@ -14,7 +14,8 @@ class DatabaseController extends Controller
      */
     public function index()
     {
-        $latestData = Database::all();
+        $latestData = Database::all(); 
+
         return response()->json($latestData);   
     }
 
@@ -35,6 +36,8 @@ class DatabaseController extends Controller
         $db = new Database;
         $db->id_server = $request->id_server;
         $db->trafic = $request->trafic; 
+        $db->created_at = Carbon::now(); 
+        $db->updated_at = Carbon::now(); 
         $db->save();
         // var_dump($cpu);
         return response()->json(['message' => 'Task created successfully', 'cpu' => $db]);

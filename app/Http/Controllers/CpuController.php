@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cpu;
+use Illuminate\Support\Carbon; 
 use Illuminate\Http\Request;
 
 class CpuController extends Controller
@@ -34,6 +35,8 @@ class CpuController extends Controller
         $cpu->id_server = $request->id_server;
         $cpu->usage_cpu = $request->usage_cpu;
         $cpu->core_cpu = $request->core_cpu;
+        $cpu->created_at = Carbon::now(); 
+        $cpu->updated_at = Carbon::now(); 
         $cpu->save();
         // var_dump($cpu);
         return response()->json(['message' => 'Task created successfully', 'cpu' => $cpu]);
