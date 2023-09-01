@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\CpuController;
+use App\Http\Controllers\RamController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,9 +49,17 @@ Route::get('/cpu', [CpuController::class, 'index']);
 Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
 Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store'); 
 Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
-Route::get('/db', [DatabaseController::class, 'show'])->name('db.show');
+Route::get('/db/get', [DatabaseController::class, 'show'])->name('db.show');
 Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
 Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
 Route::get('/db/test', [DatabaseController::class, 'test'])->name('db.test');
 Route::get('/dbs/{id}', [DatabaseController::class, 'get'])->name('dbs.get');
-Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
+Route::delete('/db/{id}', [DatabasController::class, 'destroy'])->name('db.destroy');
+
+Route::get('/ram', [RamController::class, 'index'])->name('ram.index');
+Route::get('/ram/get', [RamControllerntroller::class, 'show'])->name('ram.show');
+Route::get('/ram/create', [RamController::class, 'create'])->name('ram.create');
+Route::post('/ram', [RamController::class, 'store'])->name('ram.store');
+Route::get('/ram/test', [RamController::class, 'test'])->name('ram.test');
+Route::get('/rams/{id}', [RamController::class, 'get'])->name('rams.get');
+Route::delete('/ram/{id}', [RamController::class, 'destroy'])->name('ram.destroy');

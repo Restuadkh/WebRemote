@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Database;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DatabaseController extends Controller
 {
@@ -44,6 +45,7 @@ class DatabaseController extends Controller
      */
     public function show(Request $request)
     {
+        
         $id = $request->id;
         if($request->limit!=Null){
             $limit = $request->limit;
@@ -51,10 +53,23 @@ class DatabaseController extends Controller
             $limit = 10;
         }
 
+        $inputDate = $request->date;
+        if (Carbon::hasFormat($inputDate, 'Y-m-d')) {
+            // return response()->json(['message' => 'Data tanggal valid, diproses.']);
+            $currentTime = $inputDate;
+        } else {
+            // return response()->json(['message' => 'Format tanggal tidak valid.'], 400);
+            $currentTime = Carbon::now();
+            $currentTime = $currentTime->format('Y-m-d');
+        } 
+        
+        
         $latestData = Database::where('id_server', $id) 
+                    ->whereDate('created_at', $currentTime) 
                     ->orderBy('id', 'desc')
                     ->limit($limit)
-                    ->get(); 
+                    ->get();  
+
         return response()->json($latestData);
     }
 

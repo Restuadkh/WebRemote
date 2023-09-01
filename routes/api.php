@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\RamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,4 +43,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
     Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
     Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
+    
+    Route::get('/ram', [RamController::class, 'index'])->name('ram.index');
+    Route::get('/ram/create', [RamController::class, 'create'])->name('ram.create');
+    Route::post('/ram', [RamController::class, 'store'])->name('ram.store');
+    Route::get('/ram/{id}', [RamControllerroller::class, 'show'])->name('ram.show');
+    Route::delete('/ram/{id}', [RamController::class, 'destroy'])->name('ram.destroy');
 });

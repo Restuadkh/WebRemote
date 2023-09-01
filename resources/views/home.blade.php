@@ -1,20 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container"> 
+    <div class="container-fluid" > 
         <div class="row justify-content-center">
-            <div class="col-md-3 m-1">
-                <div class="card">
+            <div class="col-md-3 m-1 white">
+                <div class="card border-0">
                     <div class="card-header">Query Proses</div>
                     <div class="card-body">
                         <h5 class="card-title"> </h5>
                         <p class="card-text"> </p>
                         <p class="card-text" id="ID_Server"> </p>
                         <canvas id="doughnutChart" width="200" height="200"></canvas>
-                        <div id="centerText10" style=""></div>
-                        <div id=""">/</div>
-                        <div id="centerText11" style="position: absolute; top: 55%; left: 42%; transform: translate(-50%, -50%); font-size: 12px;"></div>
-                        <div id='data-container'></div>
                         </p>
                     </div>
                     <div class="card-footer">
@@ -23,27 +19,30 @@
                 </div>
             </div>
             <div class="col-md-6 m-1">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-header">Query Proses List</div>
                     <div class="card-body">
                         <h6 class="card-title"> </h6>
                         <p class="card-text"> </p>
                         <p class="card-text" id="ID_Server"> </p>
-                        <canvas id="Chart" width="800" height="400"></canvas>
-                        <div id='data-container'></div>
+                        <canvas id="Chart" width="800" height="370"></canvas>
                         </p>
                     </div>
                     <div class="card-footer">
                         <div class="form-group">
-                          <select class="form-control" name="RuleValue" id="RuleValue">
+                          {{-- <select class="form-control" name="RuleValue" id="RuleValue">
                             <option value="10">10</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
                             <option value="500">500</option>
                             <option value="1000">1000</option>
                             <option value="10000">10000</option>
-                          </select>
-                        </div>
+                          </select> --}}
+                          <div class="input-group date" id=""> 
+                            <input type="text" class="form-control" id="datetimepicker" name="datetimepicker" placeholder="Select date and time">
+
+                          </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -51,7 +50,7 @@
         <div class="row justify-content-center">
             @foreach ($server as $data_server)
                 <div class="col-md-3 m-1">
-                    <div class="card">
+                    <div class="card border-0">
                         <div class="card-header">{{ $data_server->NamaServer }}</div>
                         <div class="card-body">
                             <h4 class="card-title">{{ $data_server->IPServer }}</h4>
@@ -72,17 +71,24 @@
         </div>
         <script>
             $(document).ready(function() {
-            updatetest();
-            updatedatabese10();
-            updatedatabese11();
-            updatedoughnut10();
-            updatedoughnut11();
-            setInterval(updatetest, 5000); 
-            setInterval(updatedatabese10, 5000); 
-            setInterval(updatedatabese11, 5000); 
-            setInterval(updatedoughnut10, 5000); 
-            setInterval(updatedoughnut11, 5000);
+                updatetest();
+                updatedatabese(4,0);                
+                updatedatabese(2,1); 
+                setInterval(updatetest, 5000); 
+                setInterval(function() {
+                    updatedatabese(4, 0);
+                    }, 5000);
+                setInterval(function() {
+                    updatedatabese(2,1);
+                    }, 5000);
+                    
+                // Initialize Flatpickr
+                flatpickr("#datetimepicker", {
+                    enableTime: false,
+                    dateFormat: "Y-m-d",
+                }); 
             });
+
             function hitungRataRata(dataArray, ukuranKelompok) {
                 var hasil = [];
                 
@@ -133,21 +139,24 @@
             var hourLabels = Array.from({ length: 30 }, (_, index) => `${index}`);
 
             var trafic = 0;
-            var limit = 10;
-            var datalimit = 10;
+            var limit = 1000;
+            var datalimit = 5;
             var squent = 20;
-            var RuleValue = document.getElementById('RuleValue');
+            var date = 0; 
+
+            var RuleValue = document.getElementById('datetimepicker');
             RuleValue.addEventListener('change', function () {
                 var selectedValue = RuleValue.value; 
                 // console.log(selectedValue);
-                datalimit = selectedValue;
-                limit = selectedValue; 
-                updatetest()
-                updatedatabese10();                
-                updatedatabese11();
-                // Update the chart data and re-render
-                // myChart.data.datasets[0].data = newData;
-                // myChart.update();
+            //     datalimit = selectedValue;
+            //     limit = selectedValue; 
+                date = selectedValue;    
+            //     updatetest()
+                // updatedatabese(4,0);                
+                // updatedatabese(2,1);
+            //   // Update the chart data and re-render
+            //     // myChart.data.datasets[0].data = newData;
+            //     // myChart.update();
             }); 
 
             function updatetest(){
@@ -161,24 +170,25 @@
                     },
                     success: function(response) {
                         // console.log(response);
-                        trafic_ = response.map(response => response.trafic);
-                        data = hitungRataRata(trafic_,squent);
-                        console.log(data);
+                        // trafic_ = response.map(response => response.trafic);
+                        // data = hitungRataRata(trafic_,squent);
+                        // console.log(data);
                     }
                 });
             }
 
-            function updatedatabese10() {
+            function updatedatabese(id_server,Datachart) {
                 $.ajax({
                     url: '{{ route('db.show') }}',
                     type: 'GET',
                     contentType: 'application/json',
                     data: {
-                        id: '4',
-                        limit: limit
+                        id: id_server,
+                        limit: limit,
+                        date: date
                     },
-                    success: function(data) {
-                        // console.log(data);
+                    success: function(data) { 
+                        console.log(data);
                         data = data.reverse();
                         trafic = data.map(data => data.trafic);
                         created_at = data.map(data => data.created_at);  
@@ -198,95 +208,94 @@
                         if(myChart.options.scales.y.max < maxValue){
                             myChart.options.scales.y.max = maxValue + 1;
                         }
-                        // myChart.options.scales.y.min = minValue - 1;
-                        // myChart.options.scales.y.max = maxValue + 1;
-                        myChart.data.datasets[1].data = trafic_;
-                        // myChart.data.datasets[1].label = truncatedTexts;
-
+                        myChart.data.datasets[Datachart].data = trafic_;
                         myChart.data.labels = truncatedTexts; 
                         myChart.update();  
-                    }
-                });
-            }
-            function updatedatabese11() {
-                $.ajax({
-                    url: '{{ route('db.show') }}',
-                    type: 'GET',
-                    contentType: 'application/json',
-                    data: {
-                        id: '2',
-                        limit: limit
-                    },
-                    success: function(data) {
-                        // console.log(data);
-                        data = data.reverse();
-                        trafic = data.map(data => data.trafic);
-                        created_at = data.map(data => data.created_at);  
-                        Text = hitungRataRataWaktu(created_at,squent); 
-                        // console.log(Text);
-                        
-                        truncatedTexts = Text.map(text => {
-                            if (text.length > 10) {
-                                return text.substring(11, 16);
-                            }
-                            return text;
-                            }); 
-                        maxValue = Math.max.apply(null, trafic);
-                        minValue = Math.min.apply(null, trafic);
-                        trafic_ = hitungRataRata(trafic,squent);
-
-                        if(myChart.options.scales.y.min > minValue ){ 
-                            myChart.options.scales.y.min = minValue - 1;
-                        } 
-                        if(myChart.options.scales.y.max < maxValue){
-                            myChart.options.scales.y.max = maxValue + 1;
-                        }
-                        // myChart.options.scales.y.min = minValue - 1;
-                        // myChart.options.scales.y.max = maxValue + 1;
-                        myChart.data.datasets[0].data = trafic_;
-                        // myChart.data.datasets[1].label = truncatedTexts;
-                        myChart.data.labels = truncatedTexts;
-                        myChart.update();  
-                    }
-                });
-            }
-            function updatedoughnut10() {
-                $.ajax({
-                    url: '{{ route('dbs.get', ['id' => 4]) }}',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // console.log(data);
-                        data = data.reverse();
-                        trafic = data.map(data => data.trafic);
-                        created_at = data.map(data => data.created_at);
-                        // console.log(trafic);
-                        
-                        doughnutChart.data.datasets[0].data[0] = trafic; 
-                        doughnutChart.data.datasets[0].label[0] = created_at; 
+                        doughnutChart.data.datasets[0].data[Datachart] = trafic[0]; 
+                        doughnutChart.data.datasets[0].label[Datachart] = created_at[0]; 
                         doughnutChart.update();
-                        document.getElementById('centerText10').innerHTML = trafic;
                     }
                 });
             }
-            function updatedoughnut11() {
-                $.ajax({
-                    url: '{{ route('dbs.get', ['id' => 2]) }}',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        // console.log(data);
-                        data = data.reverse();
-                        trafic = data.map(data => data.trafic);
-                        created_at = data.map(data => data.created_at);
-                        // console.log(trafic);
-                        doughnutChart.data.datasets[0].data[1] = trafic;
-                        doughnutChart.data.datasets[0].label[1] = created_at;
-                        doughnutChart.update();  
-                        document.getElementById('centerText11').innerHTML = trafic;
-                    }
-                });
-            }
+            // function updatedatabese11() {
+            //     $.ajax({
+            //         url: '{{ route('db.show') }}',
+            //         type: 'GET',
+            //         contentType: 'application/json',
+            //         data: {
+            //             id: '2',
+            //             limit: limit
+            //         },
+            //         success: function(data) {
+            //             // console.log(data);
+            //             data = data.reverse();
+            //             trafic = data.map(data => data.trafic);
+            //             created_at = data.map(data => data.created_at);  
+            //             Text = hitungRataRataWaktu(created_at,squent); 
+            //             // console.log(Text);
+                        
+            //             truncatedTexts = Text.map(text => {
+            //                 if (text.length > 10) {
+            //                     return text.substring(11, 16);
+            //                 }
+            //                 return text;
+            //                 }); 
+            //             maxValue = Math.max.apply(null, trafic);
+            //             minValue = Math.min.apply(null, trafic);
+            //             trafic_ = hitungRataRata(trafic,squent);
+
+            //             if(myChart.options.scales.y.min > minValue ){ 
+            //                 myChart.options.scales.y.min = minValue - 1;
+            //             } 
+            //             if(myChart.options.scales.y.max < maxValue){
+            //                 myChart.options.scales.y.max = maxValue + 1;
+            //             }
+            //             // myChart.options.scales.y.min = minValue - 1;
+            //             // myChart.options.scales.y.max = maxValue + 1;
+            //             myChart.data.datasets[0].data = trafic_;
+            //             // myChart.data.datasets[1].label = truncatedTexts;
+            //             myChart.data.labels = truncatedTexts;
+            //             myChart.update();  
+            //         }
+            //     });
+            // }
+            // function updatedoughnut10() {
+            //     $.ajax({
+            //         url: '{{ route('dbs.get', ['id' => 4]) }}',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             // console.log(data);
+            //             data = data.reverse();
+            //             trafic = data.map(data => data.trafic);
+            //             created_at = data.map(data => data.created_at);
+            //             // console.log(trafic);
+                        
+            //             doughnutChart.data.datasets[0].data[0] = trafic; 
+            //             doughnutChart.data.datasets[0].label[0] = created_at; 
+            //             doughnutChart.update();
+            //             document.getElementById('centerText10').innerHTML = trafic;
+            //         }
+            //     });
+            // }
+            // function updatedoughnut11() {
+            //     $.ajax({
+            //         url: '{{ route('dbs.get', ['id' => 2]) }}',
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             // console.log(data);
+            //             data = data.reverse();
+            //             trafic = data.map(data => data.trafic);
+            //             created_at = data.map(data => data.created_at);
+            //             // console.log(trafic);
+            //             doughnutChart.data.datasets[0].data[1] = trafic;
+            //             doughnutChart.data.datasets[0].label[1] = created_at;
+            //             doughnutChart.update();  
+            //             document.getElementById('centerText11').innerHTML = trafic;
+            //         }
+            //     });
+            // }
 
             var ctx = document.getElementById('Chart').getContext('2d');
             var myChart = new Chart(ctx, {
@@ -332,6 +341,10 @@
                     interaction: {
                         intersect: false,
                     },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false // Allow chart height to adjust
+                    },
                 },
             });
             var ctxs = document.getElementById('doughnutChart').getContext('2d');
@@ -362,7 +375,7 @@
                         }
                     },
                 },
-            });
+            }); 
         </script>
     </div>
 @endsection

@@ -49,6 +49,43 @@
     </div>
 
         <script>
+            function hitungRataRata(dataArray, ukuranKelompok) {
+                var hasil = [];
+                
+                for (var i = 0; i < dataArray.length; i += ukuranKelompok) {
+                    var floatUsage = parseFloat(dataArray);
+
+                    var kelompok = dataArray.slice(i, i + ukuranKelompok);
+                    var jumlah = kelompok.reduce((total, nilai) => total + nilai, 0);
+                    var rataRata = jumlah / kelompok.length;
+
+                    hasil.push(floatUsage);
+                }
+                
+                return hasil;
+            }
+            function hitungRataRataWaktu(dataArray, ukuranKelompok) {
+                var hasil = [];
+                
+                for (var i = 0; i < dataArray.length; i += ukuranKelompok) {
+                    var kelompok = dataArray.slice(i, i + ukuranKelompok);
+                    
+                    // Mengubah data waktu menjadi timestamp
+                    var timestamps = kelompok.map(waktu => new Date(waktu).getTime());
+                    
+                    var jumlahTimestamp = timestamps.reduce((total, timestamp) => total + timestamp, 0);
+                    var rataRataTimestamp = jumlahTimestamp / timestamps.length;
+                    
+                    // Mengubah kembali rata-rata timestamp menjadi waktu
+                    var rataRataWaktu = new Date(rataRataTimestamp);
+
+                    var formattedRataRataWaktu = rataRataWaktu.toISOString();
+                    
+                    hasil.push(formattedRataRataWaktu);
+                }
+                
+                return hasil;
+            }
             function getDataAndUpdate() {
                 $.ajax({
                     url: '{{ route('home.get', ['id' => $cpu->id_server]) }}',
@@ -79,6 +116,7 @@
             var values = 0;
             var id = 0;
             var datasets = 0;
+            var squent = 10;
             // Get chart data from PHP and convert it to JavaScript
             function getDataChart() {
                 $.ajax({
@@ -92,20 +130,23 @@
                         values = data.map(data => data.usage_cpu);
                         core = data.map(data => data.core_cpu);
                         created_at = data.map(data => data.created_at); 
-                        truncatedTexts = created_at.map(text => {
+                        Text = hitungRataRataWaktu(created_at,squent);
+                        truncatedTexts = Text.map(text => {
                             if (text.length > 10) {
-                                return text.substring(11, 19);
+                                return text.substring(11, 16);
                             }
                             return text;
-                            });
+                            }); 
+                        values_ = hitungRataRata(values,squent);
+
                         maxValue = Math.max.apply(null, values);
                         minValue = Math.min.apply(null, values);
                         myChart.options.scales.y.min = minValue-1;
                         myChart.options.scales.y.max = maxValue+1;
                         myChart.data.datasets[0].data = values;
-                        myChart.data.labels = truncatedTexts;
-                        
+                        myChart.data.labels = truncatedTexts; 
                         myChart.update(); 
+                        console.log(values_); 
                     }, 
                 });  
             }
@@ -124,7 +165,8 @@
                                 borderColor: getRandomColor(),
                                 borderWidth: 1.5,
                                 fill: false,
-                                tension: 0.4
+                                tension: 0.4,
+                                pointRadius: 0.5,
                             }]
                 },
                 options: {
