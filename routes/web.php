@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\RamController;
+use App\Http\Controllers\MemoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,3 +64,10 @@ Route::post('/ram', [RamController::class, 'store'])->name('ram.store');
 Route::get('/ram/test', [RamController::class, 'test'])->name('ram.test');
 Route::get('/rams/{id}', [RamController::class, 'get'])->name('rams.get');
 Route::delete('/ram/{id}', [RamController::class, 'destroy'])->name('ram.destroy');
+
+
+Route::get('/memory', [MemoryController::class, 'index'])->name('memory.index');
+Route::get('/memory/create', [MemoryController::class, 'create'])->name('memory.create');
+Route::post('/memory', [MemoryController::class, 'store'])->name('memory.store');
+Route::get('/memory/{id}', [MemoryControllerroller::class, 'show'])->name('memory.show');
+Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('memory.destroy');

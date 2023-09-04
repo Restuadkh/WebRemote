@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cpus', function (Blueprint $table) {
             $table->id();
+            $table->integer("id_user");
             $table->integer("id_server");
             $table->float("usage_cpu");
             $table->string("core_cpu");

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('databases', function (Blueprint $table) {
+        Schema::create('memories', function (Blueprint $table) {
             $table->id();
-            $table->integer("id_user");
-            $table->integer("id_server");
-            $table->float("trafic");
+            $table->integer("id_user"); 
+            $table->integer("id_server"); 
+            $table->string("usage_ram"); 
+            $table->string("space_ram"); 
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('database_migration');
+        Schema::dropIfExists('memories');
     }
 };

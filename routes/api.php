@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\MemoryController;
 use App\Http\Controllers\RamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,4 +50,11 @@ Route::prefix('v1')->group(function () {
     Route::post('/ram', [RamController::class, 'store'])->name('ram.store');
     Route::get('/ram/{id}', [RamControllerroller::class, 'show'])->name('ram.show');
     Route::delete('/ram/{id}', [RamController::class, 'destroy'])->name('ram.destroy');
+
+    
+    Route::get('/memory', [MemoryController::class, 'index'])->name('memory.index');
+    Route::get('/memory/create', [MemoryController::class, 'create'])->name('memory.create');
+    Route::post('/memory', [MemoryController::class, 'store'])->name('memory.store');
+    Route::get('/memory/{id}', [MemoryControllerroller::class, 'show'])->name('memory.show');
+    Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('memory.destroy');
 });

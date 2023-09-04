@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('rams', function (Blueprint $table) {
             $table->id();
+            $table->integer("id_user");
             $table->integer("id_server"); 
             $table->string("usage_ram"); 
             $table->string("space_ram"); 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
+            $table->integer("id_user");
             $table->string("NamaServer");
             $table->string("IPServer");
             $table->string("DescriptionServer");
