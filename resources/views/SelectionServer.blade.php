@@ -121,8 +121,13 @@
             function getDataChart() {
                 $.ajax({
                     url: '{{ route('CPU.show', ['id' => $cpu->id_server])}}',
-                    type: 'GET',
+                    type: 'GET', 
                     dataType: 'json',
+                    data: {
+                        id: id_server,
+                        limit: limit,
+                        date: date
+                    },
                     success: function(data) {
                         console.log(data); 
                         data = data.reverse();

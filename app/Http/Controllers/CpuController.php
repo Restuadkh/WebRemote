@@ -46,8 +46,7 @@ class CpuController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    { 
-        
+    {  
         $latestData = Cpu::where('id_server', $id) 
                     ->where('core_cpu',"=", 'all')
                     ->orderBy('id', 'desc')
