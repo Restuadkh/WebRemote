@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+ 
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;  
 
 use App\Models\Ram;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon; 
 
 class RamController extends Controller
 {
@@ -13,7 +14,7 @@ class RamController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    { 
         $getRam = Ram::all();
         
         return response()->json($getRam);
