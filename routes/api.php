@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\ErrorApacheController;
 use App\Http\Controllers\LogApacheController;
 use App\Http\Controllers\MemoryController;
 use App\Http\Controllers\RamController; 
@@ -59,9 +60,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/memory/{id}', [MemoryControllerroller::class, 'show'])->name('memory.show');
     Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('memory.destroy');
     
-    Route::get('/logapache', [LogApacheController::class, 'index'])->name('logapache.index');
-    Route::get('/logapache/create', [LogApacheController::class, 'create'])->name('logapache.create');
-    Route::post('/logapache', [LogApacheController::class, 'store'])->name('logapache.store');
-    Route::get('/logapache/{id}', [LogApacheControllerroller::class, 'show'])->name('logapache.show');
-    Route::delete('/logapache/{id}', [LogApacheController::class, 'destroy'])->name('logapache.destroy');
+    Route::get('/errorapache', [ErrorApacheController::class, 'index'])->name('errorapache.index');
+    Route::get('/errorapache/create', [ErrorApacheController::class, 'create'])->name('errorapache.create');
+    Route::post('/errorapache', [ErrorApacheController::class, 'store'])->name('errorapache.store');
+    Route::get('/errorapache/{id}', [ErrorApacheController::class, 'show'])->name('errorapache.show');
+    Route::delete('/errorapache/{id}', [ErrorApacheController::class, 'destroy'])->name('errorapache.destroy');
 });

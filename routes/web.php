@@ -78,3 +78,9 @@ Route::get('/logapache/create', [LogApacheController::class, 'create'])->name('l
 Route::post('/logapache', [LogApacheController::class, 'store'])->name('logapache.store');
 Route::get('/logapache/{id}', [LogApacheControllerroller::class, 'show'])->name('logapache.show');
 Route::delete('/logapache/{id}', [LogApacheController::class, 'destroy'])->name('logapache.destroy');
+
+Route::get('/errorapache', [ErrorApacheController::class, 'index'])->name('errorapache.index');
+Route::get('/errorapache/create', [ErrorApacheController::class, 'create'])->name('errorapache.create');
+Route::post('/errorapache', [ErrorApacheController::class, 'store'])->name('errorapache.store');
+Route::get('/errorapache/{id}', [ErrorApacheController::class, 'show'])->name('errorapache.show');
+Route::delete('/errorapache/{id}', [ErrorApacheController::class, 'destroy'])->name('errorapache.destroy');
