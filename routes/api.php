@@ -3,8 +3,9 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CpuController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\LogApacheController;
 use App\Http\Controllers\MemoryController;
-use App\Http\Controllers\RamController;
+use App\Http\Controllers\RamController; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,4 +58,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/memory', [MemoryController::class, 'store'])->name('memory.store');
     Route::get('/memory/{id}', [MemoryControllerroller::class, 'show'])->name('memory.show');
     Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('memory.destroy');
+    
+    Route::get('/logapache', [LogApacheController::class, 'index'])->name('logapache.index');
+    Route::get('/logapache/create', [LogApacheController::class, 'create'])->name('logapache.create');
+    Route::post('/logapache', [LogApacheController::class, 'store'])->name('logapache.store');
+    Route::get('/logapache/{id}', [LogApacheControllerroller::class, 'show'])->name('logapache.show');
+    Route::delete('/logapache/{id}', [LogApacheController::class, 'destroy'])->name('logapache.destroy');
 });

@@ -45,12 +45,30 @@ class CpuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {  
+        $id = $request->id;
+        if($request->limit!=Null){
+            $limit = $request->limit;
+        }else{
+            $limit = 10;
+        }
+        
+        $inputDate = $request->date;
+        if (Carbon::hasFormat($inputDate, 'Y-m-d')) {
+            // return response()->json(['message' => 'Data tanggal valid, diproses.']);
+            $currentTime = $inputDate;
+        } else {
+            // return response()->json(['message' => 'Format tanggal tidak valid.'], 400);
+            $currentTime = Carbon::now();
+            $currentTime = $currentTime->format('Y-m-d');
+        } 
+
         $latestData = Cpu::where('id_server', $id) 
                     ->where('core_cpu',"=", 'all')
+                    ->whereDate('created_at', $currentTime) 
                     ->orderBy('id', 'desc')
-                    ->limit(100)
+                    ->limit($limit)
                     ->get(); 
         return response()->json($latestData);
     }

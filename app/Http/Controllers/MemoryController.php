@@ -41,15 +41,38 @@ class MemoryController extends Controller
         $db->updated_at = Carbon::now(); 
         $db->save();
         // var_dump($cpu);
-        return response()->json(['message' => 'Task created successfully', 'cpu' => $db]);
+        return response()->json(['message' => 'Task created successfully', 'memory' => $db]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show(Request $request)
+    { 
+        
+        $id = $request->id;
+        if($request->limit!=Null){
+            $limit = $request->limit;
+        }else{
+            $limit = 10;
+        }
+        $inputDate = $request->date;
+        if (Carbon::hasFormat($inputDate, 'Y-m-d')) {
+            // return response()->json(['message' => 'Data tanggal valid, diproses.']);
+            $currentTime = $inputDate;
+        } else {
+            // return response()->json(['message' => 'Format tanggal tidak valid.'], 400);
+            $currentTime = Carbon::now();
+            $currentTime = $currentTime->format('Y-m-d');
+        } 
+ 
+        $db = Memory::where('id_server', $id)
+            ->whereDate('created_at', $currentTime) 
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get(); 
+
+        return response()->json($db);
     }
 
     /**

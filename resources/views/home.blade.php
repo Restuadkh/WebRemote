@@ -116,8 +116,12 @@
                     // Mengubah kembali rata-rata timestamp menjadi waktu
                     var rataRataWaktu = new Date(rataRataTimestamp);
 
-                    var formattedRataRataWaktu = rataRataWaktu.toISOString();
+                    // Mengonversi rata-rata waktu ke zona waktu UTC
+                    rataRataWaktu.setMinutes(rataRataWaktu.getMinutes() - rataRataWaktu.getTimezoneOffset());
                     
+                    // Menggunakan toISOString() untuk menghasilkan format ISO 8601 UTC
+                    var formattedRataRataWaktu = rataRataWaktu.toISOString();
+
                     hasil.push(formattedRataRataWaktu);
                 }
                 
@@ -139,7 +143,7 @@
             var hourLabels = Array.from({ length: 30 }, (_, index) => `${index}`);
 
             var trafic = 0;
-            var limit = 1000;
+            var limit = 5000;
             var datalimit = 5;
             var squent = 20;
             var date = 0; 
@@ -188,17 +192,21 @@
                         date: date
                     },
                     success: function(data) { 
-                        console.log(data);
+                        // console.log(data);
                         data = data.reverse();
                         trafic = data.map(data => data.trafic);
                         created_at = data.map(data => data.created_at);  
                         Text = hitungRataRataWaktu(created_at,squent);
+                        // console.log(created_at);
                         truncatedTexts = Text.map(text => {
                             if (text.length > 10) {
                                 return text.substring(11, 16);
                             }
                             return text;
                             }); 
+                        created_at_ = truncatedTexts.map(truncatedTexts => truncatedTexts.created_at);  
+                        // console.log(Text);
+
                         maxValue = Math.max.apply(null, trafic);
                         minValue = Math.min.apply(null, trafic);
                         trafic_ = hitungRataRata(trafic,squent);

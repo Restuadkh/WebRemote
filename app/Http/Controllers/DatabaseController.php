@@ -40,7 +40,7 @@ class DatabaseController extends Controller
         $db->updated_at = Carbon::now(); 
         $db->save();
         // var_dump($cpu);
-        return response()->json(['message' => 'Task created successfully', 'cpu' => $db]);
+        return response()->json(['message' => 'Task created successfully', 'db' => $db]);
     }
 
     /**
