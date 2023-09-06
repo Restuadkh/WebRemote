@@ -16,6 +16,8 @@ class Memory extends Model
         'id_server',
         'usage_ram',
         'space_ram',
+        'usage_swap',
+        'space_swap',
     ];
 
 }

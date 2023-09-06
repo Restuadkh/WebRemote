@@ -8,6 +8,16 @@
               <div class="card-body center">
                 <h4 class="card-title">Title</h4> 
                 <div style="width: 100%; margin: 0 auto;">
+                    <canvas id="RamChart" width="800" height="400"></canvas>
+                </div> 
+              </div>
+            </div>
+        </div>
+        <div class="col-md m-1">
+            <div class="card text-left">
+              <div class="card-body center">
+                <h4 class="card-title">Title</h4> 
+                <div style="width: 100%; margin: 0 auto;">
                     <canvas id="Chart" width="800" height="400"></canvas>
                 </div> 
               </div>

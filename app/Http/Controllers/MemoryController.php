@@ -37,6 +37,8 @@ class MemoryController extends Controller
         $db->id_server = $request->id_server;
         $db->usage_ram = $request->usage_ram; 
         $db->space_ram = $request->space_ram; 
+        $db->usage_swap = $request->usage_swap; 
+        $db->space_swap = $request->space_swap; 
         $db->created_at = Carbon::now(); 
         $db->updated_at = Carbon::now(); 
         $db->save();

@@ -17,10 +17,12 @@ return new class extends Migration
             $table->integer("id_server"); 
             $table->string("usage_ram"); 
             $table->string("space_ram"); 
+            $table->string("usage_swap"); 
+            $table->string("space_swap"); 
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */
