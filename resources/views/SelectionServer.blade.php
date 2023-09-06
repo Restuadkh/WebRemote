@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md m-1">
+        <div class="col-md-6 mt-2">
             <div class="card text-left">
               <div class="card-body center">
-                <h4 class="card-title">Title</h4> 
+                <h4 class="card-title">ramChart</h4> 
                 <div style="width: 100%; margin: 0 auto;">
-                    <canvas id="RamChart" width="800" height="400"></canvas>
+                    <canvas id="memoryChart" width="auto" height="auto"></canvas>
                 </div> 
               </div>
             </div>
         </div>
-        <div class="col-md m-1">
+        <div class="col-md-6 mt-2">
             <div class="card text-left">
               <div class="card-body center">
-                <h4 class="card-title">Title</h4> 
+                <h4 class="card-title">cpu</h4> 
                 <div style="width: 100%; margin: 0 auto;">
-                    <canvas id="Chart" width="800" height="400"></canvas>
+                    <canvas id="Chart" width="auto" height="auto"></canvas>
                 </div> 
               </div>
             </div>
         </div>  
     </div>   
     <div class="row justify-content-center">   
-        <div class="col-md m-1">
+        <div class="col-md mt-2">
             <div class="card">
                 <div class="card-header">{{ $cpu->id }}</div>
                 <div class="card-body">
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>         
-        <div class="col-md m-1">
+        <div class="col-md mt-2">
             <div class="card">
                 <div class="card-header">{{ $cpu->id }}</div>
                 <div class="card-body">
@@ -62,6 +62,8 @@
                 // Make the initial request to display the content
                 getMemoryUpdate();
                 getDataAndUpdate();
+                getMemoryChart();;
+                getDataChart();
                 // Set an interval to make periodic requests every 5 seconds (adjust the interval as needed)
                 setInterval(getMemoryUpdate, 10000);
                 setInterval(getDataAndUpdate, 10000);
@@ -201,12 +203,56 @@
                         myChart.data.datasets[0].data = values_;
                         myChart.data.labels = truncatedTexts; 
                         myChart.update(); 
-                        console.log(values_); 
+                        // console.log(values_); 
                     }, 
                 });  
             }
-            
-            getDataChart();
+
+            function getMemoryChart() {
+                $.ajax({
+                    url: '{{ route('memory.show', ['id' => $cpu->id_server])}}',
+                    type: 'GET', 
+                    dataType: 'json',
+                    data: {
+                        id: {{$cpu->id_server}},
+                        limit: limit,
+                        date: date
+                    },
+                    success: function(data) {
+                        console.log(data); 
+                        data = data.reverse(); 
+                        usage_ram = data.map(data => data.usage_ram);
+                        space_ram = data.map(data => data.space_ram);
+                        usage_swap = data.map(data => data.usage_swap); 
+                        created_at = data.map(data => data.created_at); 
+                        Text = hitungRataRataWaktu(created_at,squent);
+                        truncatedTexts = Text.map(text => {
+                            if (text.length > 10) {
+                                return text.substring(11, 16);
+                            }
+                            return text;
+                            }); 
+
+                        usage_ram_ = hitungRataRata(usage_ram,squent);
+                        space_ram_ = hitungRataRata(space_ram,squent);
+                        usage_swap_ = hitungRataRata(usage_swap,squent);
+                        
+                        usage_ram = usage_ram_.map(byteToMB);
+                        usage_swap = usage_swap_.map(byteToMB);
+
+                        maxValue = Math.max.apply(null, usage_ram);
+                        minValue = Math.min.apply(null, usage_ram);
+
+                        memoryChart.options.scales.y.min = minValue-1;
+                        memoryChart.options.scales.y.max = maxValue+1;
+                        memoryChart.data.datasets[0].data = usage_ram;
+                        memoryChart.data.datasets[1].data = usage_swap;
+                        memoryChart.data.labels = truncatedTexts; 
+                        memoryChart.update(); 
+                        // console.log(values_); 
+                    }, 
+                });  
+            }
             // Create the chart
             var ctx = document.getElementById('Chart').getContext('2d');
             var myChart = new Chart(ctx, {
@@ -214,7 +260,7 @@
                 data: {
                     labels: id,
                     datasets: [{
-                                label: "Usage CPU",
+                                label: "CPU Usage",
                                 data: values,
                                 backgroundColor: getRandomColor(),
                                 borderColor: getRandomColor(),
@@ -241,6 +287,47 @@
                 }
             });
 
+            var ctx_memory = document.getElementById('memoryChart').getContext('2d');
+            var memoryChart = new Chart(ctx_memory, {
+                type: 'line',
+                data: {
+                    labels: id,
+                    datasets: [{
+                                label: "Memory Usage",
+                                data: values,
+                                backgroundColor: getRandomColor(),
+                                borderColor: getRandomColor(),
+                                borderWidth: 1.5,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0.5,
+                            },{
+                                label: "Swap Usage",
+                                data: values,
+                                backgroundColor: getRandomColor(),
+                                borderColor: getRandomColor(),
+                                borderWidth: 1.5,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0.5,
+                            }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }, 
+                    title: {
+                        display: true,
+                        text: 'Server Log CPU'
+                    },
+                    interaction: {
+                        intersect: false,
+                    }
+                }
+            });
         </script>
         
 </div>

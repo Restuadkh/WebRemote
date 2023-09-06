@@ -32,6 +32,7 @@ class CpuController extends Controller
     { 
         // var_dump(json_encode($request));
         $cpu = new Cpu;
+        $cpu->id_user = $request->id_user;
         $cpu->id_server = $request->id_server;
         $cpu->usage_cpu = $request->usage_cpu;
         $cpu->core_cpu = $request->core_cpu;

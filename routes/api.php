@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/memory', [MemoryController::class, 'index'])->name('memory.index');
     Route::get('/memory/create', [MemoryController::class, 'create'])->name('memory.create');
     Route::post('/memory', [MemoryController::class, 'store'])->name('memory.store');
-    Route::get('/memory/{id}', [MemoryControllerroller::class, 'show'])->name('memory.show');
+    Route::get('/memory/{id}', [MemoryController::class, 'show'])->name('memory.show');
     Route::delete('/memory/{id}', [MemoryController::class, 'destroy'])->name('memory.destroy');
     
     Route::get('/errorapache', [ErrorApacheController::class, 'index'])->name('errorapache.index');
