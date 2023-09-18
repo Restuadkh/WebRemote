@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ErrorApache;
 use Illuminate\Http\Request;
+use Ndum\Laravel\Snmp;
 
 class ErrorApacheController extends Controller
 {
@@ -12,6 +13,21 @@ class ErrorApacheController extends Controller
      */
     public function index()
     { 
+        $host = '10.10.187.32';
+        $community = 'public';
+        $oid = '1.3.6.1.2.1.25.3.3.1.3'; // Contoh OID untuk mengambil nilai RX bytes
+    
+        $snmp = new Snmp();
+        $snmp->newClient($host, 2, 'community_string');
+        $result = $snmp->getValue($oid); ## hostname
+        // dd($result);
+    
+        if ($result !== false) {
+            return "Nilai OID $oid: $result";
+        } else {
+            return "Gagal mengambil nilai OID $oid";
+        }
+
         $get = ErrorApache::all();
 
         return response()->json($get);

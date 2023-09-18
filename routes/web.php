@@ -3,11 +3,13 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\CpuController;
+use App\Http\Controllers\ErrorApacheController;
 use App\Http\Controllers\LogApacheController;
 use App\Http\Controllers\RamController;
 use App\Http\Controllers\MemoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Ndum\Laravel\Snmp;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +86,4 @@ Route::get('/errorapache/create', [ErrorApacheController::class, 'create'])->nam
 Route::post('/errorapache', [ErrorApacheController::class, 'store'])->name('errorapache.store');
 Route::get('/errorapache/{id}', [ErrorApacheController::class, 'show'])->name('errorapache.show');
 Route::delete('/errorapache/{id}', [ErrorApacheController::class, 'destroy'])->name('errorapache.destroy');
+ 

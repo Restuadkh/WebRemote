@@ -72,7 +72,7 @@ class MemoryController extends Controller
             ->whereDate('created_at', $currentTime) 
             ->orderBy('id', 'desc')
             ->limit($limit)
-            ->get(); 
+            ->get();  
 
         return response()->json($db);
     }

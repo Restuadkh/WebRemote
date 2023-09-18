@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid" > 
+    <div class="container" > 
         <div class="row justify-content-center">
-            <div class="col-md-3 m-1 white">
+            <div class="col-md-3">
                 <div class="card border-0">
                     <div class="card-header">Query Proses</div>
                     <div class="card-body">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 m-1">
+            <div class="col-md-9">
                 <div class="card border-0">
                     <div class="card-header">Query Proses List</div>
                     <div class="card-body">
@@ -29,15 +29,7 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <div class="form-group">
-                          {{-- <select class="form-control" name="RuleValue" id="RuleValue">
-                            <option value="10">10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                            <option value="1000">1000</option>
-                            <option value="10000">10000</option>
-                          </select> --}}
+                        <div class="form-group"> 
                           <div class="input-group date" id=""> 
                             <input type="text" class="form-control" id="datetimepicker" name="datetimepicker" placeholder="Select date and time">
 
@@ -49,7 +41,7 @@
         </div>
         <div class="row justify-content-center">
             @foreach ($server as $data_server)
-                <div class="col-md-3 m-1">
+                <div class="col-md-6 mt-2">
                     <div class="card border-0">
                         <div class="card-header">{{ $data_server->NamaServer }}</div>
                         <div class="card-body">
@@ -143,24 +135,17 @@
             var hourLabels = Array.from({ length: 30 }, (_, index) => `${index}`);
 
             var trafic = 0;
-            var limit = 5000;
+            var limit = 10000;
             var datalimit = 5;
             var squent = 20;
             var date = 0; 
 
             var RuleValue = document.getElementById('datetimepicker');
             RuleValue.addEventListener('change', function () {
-                var selectedValue = RuleValue.value; 
-                // console.log(selectedValue);
-            //     datalimit = selectedValue;
-            //     limit = selectedValue; 
+                var selectedValue = RuleValue.value;  
                 date = selectedValue;    
-            //     updatetest()
-                // updatedatabese(4,0);                
-                // updatedatabese(2,1);
-            //   // Update the chart data and re-render
-            //     // myChart.data.datasets[0].data = newData;
-            //     // myChart.update();
+                updatedatabese(4,0);                
+                updatedatabese(2,1);   
             }); 
 
             function updatetest(){
