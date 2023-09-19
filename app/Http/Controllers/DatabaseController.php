@@ -20,7 +20,7 @@ class DatabaseController extends Controller
 
         return response()->json($latestData);   
     }
-
+     
     /**
      * Show the form for creating a new resource.
      */
