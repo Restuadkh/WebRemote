@@ -46,6 +46,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');
     Route::get('/db/{id}', [DatabaseController::class, 'show'])->name('db.show');
     Route::delete('/db/{id}', [DatabaseController::class, 'destroy'])->name('db.destroy');
+    Route::get('/db/proseslist', [DatabaseController::class, 'showProcessList'])->name('db.showProcessList');
+    Route::get('/db/getproseslist', [DatabaseController::class, 'getProcessList'])->name('db.getproseslist');
     
     Route::get('/ram', [RamController::class, 'index'])->name('ram.index');
     Route::get('/ram/create', [RamController::class, 'create'])->name('ram.create');

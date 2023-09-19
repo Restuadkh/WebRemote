@@ -106,17 +106,33 @@ class DatabaseController extends Controller
 
         foreach ($count as $row) {
             $countdb = new Proseslist; 
-            $countdb->id_user = "2";
-            $countdb->id_server = "4";
+            $countdb->id_user = $request->id_user;
+            $countdb->id_server = $request->id_server;
             $countdb->db = $row->db;
             $countdb->count = $row->jumlah_proses;
             $countdb->save();
+        }  
+        return response()->json($count);  
+        // return view('db', ['processList' => $processList]); 
+    }
+    public function getProcessList(Request $request)
+    {
+        $count = [];
+        $Proseslist = Proseslist::orderby("id", "DESC")->get(); 
+        foreach ($Proseslist as $row) { 
+            if ($row->db !== null) {
+                $item = [
+                    'id' => $row->id,
+                    'db' => $row->db,
+                    'count' => $row->count,
+                ];
+                $count[] = $item;
+            }else{
+                break;
+            }
         }
-
-        return response()->json($count); 
-        
-        // return view('db', ['processList' => $processList]);
-
+        $reversecount = array_reverse($count);
+        return response()->json($reversecount);   
     }
 
     /**
