@@ -95,30 +95,49 @@ class DatabaseController extends Controller
     }
 
     public function showProcessList(Request $request)
-    {
-        // $processList = DB::select('SHOW PROCESSLIST');
-        $processList = DB::connection('otherdb')->select('SHOW PROCESSLIST');
-        $count = DB::connection('otherdb')->select("
-        SELECT db, COUNT(*) AS jumlah_proses
-        FROM information_schema.processlist
-        GROUP BY db;
-        ");
+    {   
+        if($request->id_server==="4"){ 
+            // $processList = DB::connection('otherdb')->select('SHOW PROCESSLIST');
+            $count = DB::connection('otherdb')->select("
+            SELECT db, COUNT(*) AS jumlah_proses
+            FROM information_schema.processlist
+            GROUP BY db;
+            ");
+            foreach ($count as $row) {
+                $countdb = new Proseslist; 
+                $countdb->id_user = $request->id_user;
+                $countdb->id_server = $request->id_server;
+                $countdb->db = $row->db;
+                $countdb->count = $row->jumlah_proses;
+                $countdb->save();
+            }  
+        }else if($request->id_server==="2"){ 
+            // $processList = DB::connection('otherdb2')->select('SHOW PROCESSLIST');
+            $count = DB::connection('otherdb2')->select("
+            SELECT db, COUNT(*) AS jumlah_proses
+            FROM information_schema.processlist
+            GROUP BY db;
+            ");
+            foreach ($count as $row) {
+                $countdb = new Proseslist; 
+                $countdb->id_user = $request->id_user;
+                $countdb->id_server = $request->id_server;
+                $countdb->db = $row->db;
+                $countdb->count = $row->jumlah_proses;
+                $countdb->save();
+            }  
+        }else{
+        
+        }
 
-        foreach ($count as $row) {
-            $countdb = new Proseslist; 
-            $countdb->id_user = $request->id_user;
-            $countdb->id_server = $request->id_server;
-            $countdb->db = $row->db;
-            $countdb->count = $row->jumlah_proses;
-            $countdb->save();
-        }  
         return response()->json($count);  
         // return view('db', ['processList' => $processList]); 
     }
     public function getProcessList(Request $request)
     {
         $count = [];
-        $Proseslist = Proseslist::orderby("id", "DESC")->get(); 
+        $Proseslist = Proseslist::where("id_server",$request->id_server)
+                        ->orderby("id", "DESC")->get(); 
         foreach ($Proseslist as $row) { 
             if ($row->db !== null) {
                 $item = [

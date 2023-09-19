@@ -100,6 +100,15 @@ return [
             'username' => env('DB_USERNAME_otherdb', 'forge'),
             'password' => env('DB_PASSWORD_otherdb', ''),
         ],
+        
+        'otherdb2' => [
+            'driver' => 'mysql',   
+            'host' => env('DB_HOST_otherdb2', '127.0.0.1'),
+            'port' => env('DB_PORT_otherdb2', '3306'), 
+            'database' => env('DB_DATABASE_otherdb2', 'forge'),
+            'username' => env('DB_USERNAME_otherdb2', 'forge'),
+            'password' => env('DB_PASSWORD_otherdb2', ''),
+        ],
 
     ],
 
