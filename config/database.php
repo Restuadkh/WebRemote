@@ -92,6 +92,14 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'otherdb' => [
+            'driver' => 'mysql',   
+            'host' => env('DB_HOST_otherdb', '127.0.0.1'),
+            'port' => env('DB_PORT_otherdb', '3306'), 
+            'database' => env('DB_DATABASE_otherdb', 'forge'),
+            'username' => env('DB_USERNAME_otherdb', 'forge'),
+            'password' => env('DB_PASSWORD_otherdb', ''),
+        ],
 
     ],
 

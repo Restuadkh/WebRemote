@@ -53,6 +53,7 @@ Route::get('/cpu', [CpuController::class, 'index']);
 Route::get('/cpu/{id}', [CpuController::class, 'show'])->name('CPU.show');
 Route::post('/cpu', [CpuController::class, 'store'])->name('CPU.store'); 
 Route::get('/db', [DatabaseController::class, 'index'])->name('db.index');
+Route::get('/db/proseslist', [DatabaseController::class, 'showProcessList'])->name('db.showProcessList');
 Route::get('/db/get', [DatabaseController::class, 'show'])->name('db.show');
 Route::get('/db/create', [DatabaseController::class, 'create'])->name('db.create');
 Route::post('/db', [DatabaseController::class, 'store'])->name('db.store');

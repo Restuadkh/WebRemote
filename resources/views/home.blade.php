@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container" > 
+        
+       
         <div class="row justify-content-center">
             <div class="col-md-3">
                 <div class="card border-0">
@@ -13,9 +15,51 @@
                         <canvas id="doughnutChart" width="200" height="200"></canvas>
                         </p>
                     </div>
-                    <div class="card-footer">
-                        <a href=" " class="btn btn-primary">more</a>
+                    <div class="card-footer">  
+                        
+                        <div class="container mt-5"> 
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#progressModal">
+                                Mulai Proses
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="progress">
+                                            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
+                    <script>
+                        // Fungsi untuk memperbarui nilai progress bar secara acak
+                        function updateProgressBar() {
+                            var progressBar = document.getElementById('progressBar');
+                            var randomValue = Math.floor(Math.random() * 1100); // Angka acak antara 0 dan 100
+                            progressBar.style.width = randomValue + '%';
+                            progressBar.innerHTML = randomValue + '%';
+                        }
+                
+                        // Memperbarui nilai progress bar setiap 2 detik
+                        $('#progressModal').on('shown.bs.modal', function () {
+                            setInterval(updateProgressBar, 2000);
+                        });
+                
+                        // Menghentikan pembaruan progress bar saat modal ditutup
+                        $('#progressModal').on('hidden.bs.modal', function () {
+                            clearInterval();
+                        });
+                    </script>
                 </div>
             </div>
             <div class="col-md-9">
@@ -57,10 +101,8 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
-
-
-        </div>
+            @endforeach 
+        </div> 
         <script>
             $(document).ready(function() {
                 updatetest();
@@ -79,7 +121,28 @@
                     enableTime: false,
                     dateFormat: "Y-m-d",
                 }); 
+                
+            
             });
+            // Memperbarui nilai progress bar setiap 2 detik
+            $('#progressModal').on('shown.bs.modal', function () {
+                setInterval(updateProgressBar, 2000);
+                console.log("Open");
+
+            });
+
+            // Menghentikan pembaruan progress bar saat modal ditutup
+            $('#progressModal').on('hidden.bs.modal', function () {
+                console.log("Close");
+                clearInterval();
+            });
+            // Fungsi untuk memperbarui nilai progress bar secara acak
+            function updateProgressBar() {
+                var progressBar = document.getElementById('progressBar');
+                var randomValue = Math.floor(Math.random() * 100); // Angka acak antara 0 dan 100
+                progressBar.style.width = randomValue + '%';
+                progressBar.innerHTML = randomValue + '%';
+            }
 
             function hitungRataRata(dataArray, ukuranKelompok) {
                 var hasil = [];

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Database;
+use App\Models\Proseslist;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseController extends Controller
 {
@@ -90,6 +92,31 @@ class DatabaseController extends Controller
         $jsonData = $request->json()->all();
         var_dump($jsonData);
         return response()->json($jsonData);
+    }
+
+    public function showProcessList(Request $request)
+    {
+        // $processList = DB::select('SHOW PROCESSLIST');
+        $processList = DB::connection('otherdb')->select('SHOW PROCESSLIST');
+        $count = DB::connection('otherdb')->select("
+        SELECT db, COUNT(*) AS jumlah_proses
+        FROM information_schema.processlist
+        GROUP BY db;
+        ");
+
+        foreach ($count as $row) {
+            $countdb = new Proseslist; 
+            $countdb->id_user = "2";
+            $countdb->id_server = "4";
+            $countdb->db = $row->db;
+            $countdb->count = $row->jumlah_proses;
+            $countdb->save();
+        }
+
+        return response()->json($count); 
+        
+        // return view('db', ['processList' => $processList]);
+
     }
 
     /**
