@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Database;
 use App\Models\Proseslist;
+use App\Models\proseslistlog;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -95,9 +96,16 @@ class DatabaseController extends Controller
     }
 
     public function showProcessList(Request $request)
-    {   
+    {    
         if($request->id_server==="4"){ 
-            // $processList = DB::connection('otherdb')->select('SHOW PROCESSLIST');
+            $processList = DB::connection('otherdb')->select('SHOW PROCESSLIST');
+            $proses = json_encode($processList);
+            $log = new proseslistlog;
+            $log->id_user = $request->id_user;
+            $log->id_server = $request->id_server;
+            $log->log = $proses;
+            $log->save();
+
             $count = DB::connection('otherdb')->select("
             SELECT db, COUNT(*) AS jumlah_proses
             FROM information_schema.processlist
@@ -112,7 +120,14 @@ class DatabaseController extends Controller
                 $countdb->save();
             }  
         }else if($request->id_server==="2"){ 
-            // $processList = DB::connection('otherdb2')->select('SHOW PROCESSLIST');
+            $processList = DB::connection('otherdb2')->select('SHOW PROCESSLIST'); 
+            $proses = json_encode($processList);
+            $log = new proseslistlog;
+            $log->id_user = $request->id_user;
+            $log->id_server = $request->id_server;
+            $log->log = $proses;
+            $log->save();
+            
             $count = DB::connection('otherdb2')->select("
             SELECT db, COUNT(*) AS jumlah_proses
             FROM information_schema.processlist
@@ -127,7 +142,7 @@ class DatabaseController extends Controller
                 $countdb->save();
             }  
         }else{
-        
+            
         }
 
         return response()->json($count);  
