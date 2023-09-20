@@ -6,7 +6,8 @@ use App\Http\Controllers\DatabaseController;
 use App\Http\Controllers\ErrorApacheController;
 use App\Http\Controllers\LogApacheController;
 use App\Http\Controllers\MemoryController;
-use App\Http\Controllers\RamController; 
+use App\Http\Controllers\RamController;
+use App\Http\Controllers\TemperatureController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -67,4 +68,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/errorapache', [ErrorApacheController::class, 'store'])->name('errorapache.store');
     Route::get('/errorapache/{id}', [ErrorApacheController::class, 'show'])->name('errorapache.show');
     Route::delete('/errorapache/{id}', [ErrorApacheController::class, 'destroy'])->name('errorapache.destroy');
+    
+    Route::get('/temp', [TemperatureController::class, 'index'])->name('temp.index');
+    Route::get('/temp/create', [TemperatureController::class, 'create'])->name('temp.create');
+    Route::post('/temp', [TemperatureController::class, 'store'])->name('temp.store');
+    Route::get('/temp/{id}', [TemperatureController::class, 'show'])->name('temp.show');
+    Route::delete('/temp/{id}', [TemperatureController::class, 'destroy'])->name('temp.destroy');
 });
