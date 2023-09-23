@@ -253,6 +253,38 @@
                 });  
             }
 
+            function gettempChart() {
+                $.ajax({
+                    url: '{{ route('temp.show', ['id' => $cpu->id_server])}}',
+                    type: 'GET', 
+                    dataType: 'json',
+                    data: {
+                        id: {{$cpu->id_server}},
+                        limit: limit,
+                        date: date_cpu
+                    },
+                    success: function(data) {
+                        data = data.reverse();
+                        values = data.map(data => data.temp);
+                        created_at = data.map(data => data.created_at); 
+                        truncatedTexts = created_at.map(text => {
+                            if (text.length > 10) {
+                                return text.substring(11, 16);
+                            }
+                            return text;
+                            }); 
+                        maxValue = Math.max.apply(null, values);
+                        minValue = Math.min.apply(null, values);
+                        myChart.options.scales.y.min = minValue-1;
+                        myChart.options.scales.y.max = maxValue+1;
+                        myChart.data.datasets[0].data = values;
+                        myChart.data.labels = truncatedTexts; 
+                        myChart.update(); 
+                        console.log(created_at); 
+                    }, 
+                });  
+            }
+
             function getMemoryChart() {
                 $.ajax({
                     url: '{{ route('memory.show', ['id' => $cpu->id_server])}}',

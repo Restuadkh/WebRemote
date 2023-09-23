@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Temperature;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TemperatureController extends Controller
@@ -42,9 +43,33 @@ class TemperatureController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->id;
+        if($request->limit!=Null){
+            $limit = $request->limit;
+        }else{
+            $limit = 10;
+        }
+
+        $inputDate = $request->date;
+        if (Carbon::hasFormat($inputDate, 'Y-m-d')) {
+            // return response()->json(['message' => 'Data tanggal valid, diproses.']);
+            $currentTime = $inputDate;
+        } else {
+            // return response()->json(['message' => 'Format tanggal tidak valid.'], 400);
+            $currentTime = Carbon::now();
+            $currentTime = $currentTime->format('Y-m-d');
+        } 
+        
+        
+        $latestData = Temperature::where('id_server', $id) 
+                    ->whereDate('created_at', $currentTime) 
+                    ->orderBy('id', 'desc')
+                    ->limit($limit)
+                    ->get();  
+
+        return response()->json($latestData);
     }
 
     /**
