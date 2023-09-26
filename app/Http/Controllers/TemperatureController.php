@@ -46,9 +46,9 @@ class TemperatureController extends Controller
     public function show(Request $request)
     {
         $id = $request->id;
-        if($request->limit!=Null){
+        if ($request->limit != Null) {
             $limit = $request->limit;
-        }else{
+        } else {
             $limit = 10;
         }
 
@@ -60,14 +60,17 @@ class TemperatureController extends Controller
             // return response()->json(['message' => 'Format tanggal tidak valid.'], 400);
             $currentTime = Carbon::now();
             $currentTime = $currentTime->format('Y-m-d');
-        } 
-        
-        
-        $latestData = Temperature::where('id_server', $id) 
-                    ->whereDate('created_at', $currentTime) 
-                    ->orderBy('id', 'desc')
-                    ->limit($limit)
-                    ->get();  
+        }
+        // $selectedDate = '2023-09-04'; // Ganti dengan tanggal yang Anda inginkan
+        $startTime = $currentTime . ' 00:00:00';
+        $endTime = $currentTime . ' 23:59:59';
+
+        $latestData = Temperature::where('id_server', $id)
+            ->whereBetween('created_at', [$startTime, $endTime])
+            // ->whereDate('created_at', 'LIKE', $currentTime)
+            ->orderBy('id', 'desc')
+            ->limit($limit)
+            ->get();
 
         return response()->json($latestData);
     }
