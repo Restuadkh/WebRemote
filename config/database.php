@@ -101,6 +101,7 @@ return [
             'password' => env('DB_PASSWORD_otherdb', ''),
         ],
         
+        
         'otherdb2' => [
             'driver' => 'mysql',   
             'host' => env('DB_HOST_otherdb2', '127.0.0.1'),
@@ -110,6 +111,31 @@ return [
             'password' => env('DB_PASSWORD_otherdb2', ''),
         ],
 
+        'lan' => [
+            'driver' => 'mysql',   
+            'host' => env('DB_HOST_lan', '127.0.0.1'),
+            'port' => env('DB_PORT_lan', '3306'), 
+            'database' => env('DB_DATABASE_lan', 'forge'),
+            'username' => env('DB_USERNAME_lan', 'forge'),
+            'password' => env('DB_PASSWORD_lan', ''),
+        ],
+        
+        'simpegrs' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_simpegrs', '127.0.0.1'),
+            'port' => env('DB_PORT_simpegrs', '3306'),
+            'database' => env('DB_DATABASE_simpegrs', 'forge'),
+            'username' => env('DB_USERNAME_simpegrs', 'forge'),
+            'password' => env('DB_PASSWORD_simpegrs', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false,
+            'engine' => null,
+        ],
     ],
 
     /*

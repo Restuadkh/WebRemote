@@ -38,6 +38,8 @@ Route::get('Dashboard', [DashboardController::class, 'index']);
 Auth::routes();
 
 Route::group(['middleware' => ['web']], function () {
+    Route::get('/test', [HomeController::class, 'test'])->name('test');
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/home/{id}', [HomeController::class, 'show'])->name('home.show');
     Route::get('/home/get/{id}', [HomeController::class, 'get'])->name('home.get');

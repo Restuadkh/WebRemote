@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    // protected $connection = 'simpegrs';
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+ 
+    // public function identity()
+    // {
+    //     return $this->belongsTo(Pegawai::class, 'pegawai_id');
+    // }
 }
